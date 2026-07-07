@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizbuttom</title>
+
+    <style>
+        .question {
+            display: none;
+            width: 500px;
+            margin: auto;
+        }
+
+        .question:first-child {
+            display: block;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 500px;
+            margin: auto;
+            gap: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="question">
+        <h2 id="txtQuestion"></h2>
+
+        <div class="options">
+            <label id="txtA" for="rdA"></label> <input id="rdA" type="radio" name="q1">
+            <label id="txtB" for="rdB"></label><input id="rdB" type="radio" name="q1">
+            <label id="txtC" for="rdC"></label><input id="rdC" type="radio" name="q1">
+            <label id="txtD" for="rdD"></label><input id="rdD" type="radio" name="q1">
+        </div>
+
+        <br>
+        <div style="text-align:center;">
+            <button onclick="nextQuestion()">Submit</button>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <button onclick="nextQuestion()">Start</button>
+    </div>
+
+
+
+    <script>
+        let questionno = 0;
+        const questions = [
+            {
+                question: "What is the capital of Uttar Pradesh",
+                a: "Varanasi",
+                b: "Lucknow",
+                c: "Agra",
+                d: "Kanpur", answer: 2
+            },
+            {
+                question: "What is the HTML",
+                a: "css",
+                b: "java",
+                c: "javascript",
+                d: "HyperText Markup Language", answer: 4
+            },
+            {
+                question: "What is the css",
+                a: "html",
+                b: "python",
+                c: "Agra",
+                d: "Cascading Style Sheets", answer: 4
+            },
+            {
+                question: "What is the capital of india",
+                a: "Varanasi",
+                b: "New Delhi",
+                c: "Agra",
+                d: "Kanpur", answer: 2
+            },
+            {
+                question: "What is the capital of japan",
+                a: "Varanasi",
+                b: "Lucknow",
+                c: " Tokyo",
+                d: "Kanpur", answer: 3
+            }
+
+
+        ];
+        const txtQuestion = document.getElementById("txtQuestion");
+
+        const txtA = document.getElementById("txtA");
+        const txtB = document.getElementById("txtB");
+        const txtC = document.getElementById("txtC");
+        const txtD = document.getElementById("txtD");
+
+        function nextQuestion() {
+            txtQuestion.textContent = `${questionno + 1})${questions[questionno].question}`;
+            txtA.textContent = questions[questionno].a;
+            txtB.textContent = questions[questionno].b;
+            txtC.textContent = questions[questionno].c;
+            txtD.textContent = questions[questionno].d;
+
+            questionno++;
+        }
+    </script>
+
+</body>
+
+</html>
