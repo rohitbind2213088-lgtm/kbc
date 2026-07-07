@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Timer</title>
+
+<style>
+body{
+    font-family: Arial;
+}
+
+.question{
+    width:500px;
+    margin:auto;
+    margin-top:50px;
+}
+
+.options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:20px;
+}
+
+.option{
+    border:1px solid black;
+    padding:10px;
+}
+
+#timer{
+    color:red;
+    font-size:25px;
+    text-align:center;
+    margin:20px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="question">
+
+<h2 id="txtQuestion"></h2>
+
+<div id="timer">Time : 3</div>
+
+<div class="options">
+
+<div class="option">
+<input type="radio" id="rdA" name="q">
+<label id="txtA" for="rdA"></label>
+</div>
+
+<div class="option">
+<input type="radio" id="rdB" name="q">
+<label id="txtB" for="rdB"></label>
+</div>
+
+<div class="option">
+<input type="radio" id="rdC" name="q">
+<label id="txtC" for="rdC"></label>
+</div>
+
+<div class="option">
+<input type="radio" id="rdD" name="q">
+<label id="txtD" for="rdD"></label>
+</div>
+
+</div>
+
+<br>
+
+<div style="text-align:center;">
+<button onclick="submitAnswer()">Submit</button>
+<button onclick="startQuiz()">Start</button>
+</div>
+
+</div>
+
+<script>
+
+let questionno=0;
+let timer;
+let timeLeft=3;
+
+const questions=[
+{
+question:"What is the capital of Uttar Pradesh?",
+a:"Varanasi",
+b:"Lucknow",
+c:"Agra",
+d:"Kanpur"
+},
+{
+question:"What is HTML?",
+a:"CSS",
+b:"Java",
+c:"Python",
+d:"HyperText Markup Language"
+},
+{
+question:"What is CSS?",
+a:"HTML",
+b:"Java",
+c:"Cascading Style Sheets",
+d:"Python"
+},
+{
+question:"What is the capital of India?",
+a:"Mumbai",
+b:"New Delhi",
+c:"Lucknow",
+d:"Agra"
+},
+{
+question:"What is the capital of Japan?",
+a:"Tokyo",
+b:"Osaka",
+c:"Kyoto",
+d:"Nagoya"
+}
+];
+
+function startQuiz(){
+questionno=0;
+loadQuestion();
+}
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+if(questionno>=questions.length){
+document.getElementById("txtQuestion").innerHTML="Quiz Finished";
+document.querySelector(".options").style.display="none";
+document.getElementById("timer").innerHTML="";
+return;
+}
+
+document.getElementById("txtQuestion").innerHTML=(questionno+1)+". "+questions[questionno].question;
+
+document.getElementById("txtA").innerHTML=questions[questionno].a;
+document.getElementById("txtB").innerHTML=questions[questionno].b;
+document.getElementById("txtC").innerHTML=questions[questionno].c;
+document.getElementById("txtD").innerHTML=questions[questionno].d;
+
+document.getElementById("rdA").checked=false;
+document.getElementById("rdB").checked=false;
+document.getElementById("rdC").checked=false;
+document.getElementById("rdD").checked=false;
+
+timeLeft=3;
+document.getElementById("timer").innerHTML="Time : "+timeLeft;
+
+timer=setInterval(function(){
+
+timeLeft--;
+
+document.getElementById("timer").innerHTML="Time : "+timeLeft;
+
+if(timeLeft==0){
+clearInterval(timer);
+questionno++;
+loadQuestion();
+}
+
+},1000);
+
+}
+
+function submitAnswer(){
+
+clearInterval(timer);
+
+questionno++;
+
+loadQuestion();
+
+}
+
+</script>
+
+</body>
+</html>
