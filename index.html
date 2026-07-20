@@ -7,12 +7,6 @@
     <title>Quizbuttom</title>
 
     <style>
-                 body{
-
-                    background-color: aqua;
-                 }
-
-
         .question {
             display: none;
             width: 500px;
@@ -54,109 +48,74 @@
     <div style="text-align: center;">
         <button onclick="nextQuestion()">Start</button>
     </div>
-
+    <div>
+        <button onclick="timeout()">startThetimeout</button>
+    </div>
 
 
     <script>
-        let questionno = 0;
-        let timer;
-        let timeLeft = 3;
 
+        function timeout() {
+            setTimeout(nextQuestion, 5000);
+        }
+
+
+        let questionno = 0;
         const questions = [
             {
                 question: "What is the capital of Uttar Pradesh",
                 a: "Varanasi",
                 b: "Lucknow",
                 c: "Agra",
-                d: "Kanpur",
-                answer: 2
+                d: "Kanpur", answer: 2
             },
             {
                 question: "What is the HTML",
                 a: "css",
                 b: "java",
                 c: "javascript",
-                d: "HyperText Markup Language",
-                answer: 4
+                d: "HyperText Markup Language", answer: 4
             },
             {
                 question: "What is the css",
                 a: "html",
                 b: "python",
                 c: "Agra",
-                d: "Cascading Style Sheets",
-                answer: 4
+                d: "Cascading Style Sheets", answer: 4
             },
             {
                 question: "What is the capital of india",
                 a: "Varanasi",
                 b: "New Delhi",
                 c: "Agra",
-                d: "Kanpur",
-                answer: 2
+                d: "Kanpur", answer: 2
             },
             {
                 question: "What is the capital of japan",
                 a: "Varanasi",
                 b: "Lucknow",
-                c: "Tokyo",
-                d: "Kanpur",
-                answer: 3
+                c: " Tokyo",
+                d: "Kanpur", answer: 3
             }
-        ];
 
+
+        ];
         const txtQuestion = document.getElementById("txtQuestion");
+
         const txtA = document.getElementById("txtA");
         const txtB = document.getElementById("txtB");
         const txtC = document.getElementById("txtC");
         const txtD = document.getElementById("txtD");
 
         function nextQuestion() {
-
-            clearInterval(timer);
-
-            if (questionno >= questions.length) {
-                txtQuestion.innerHTML = "Quiz Finished";
-                return;
-            }
-
-            txtQuestion.innerHTML = (questionno + 1) + ") " + questions[questionno].question;
-            txtA.innerHTML = questions[questionno].a;
-            txtB.innerHTML = questions[questionno].b;
-            txtC.innerHTML = questions[questionno].c;
-            txtD.innerHTML = questions[questionno].d;
-
-            rdA.checked = false;
-            rdB.checked = false;
-            rdC.checked = false;
-            rdD.checked = false;
-
-            timeLeft = 3;
-
-            timer = setInterval(function () {
-
-                timeLeft--;
-
-                console.log(timeLeft);
-
-                if (timeLeft == 0) {
-                    clearInterval(timer);
-                    questionno++;
-                    nextQuestion();
-                }
-
-            }, 1000);
-
-        }
-
-        function submitAnswer() {
-
-            clearInterval(timer);
+            txtQuestion.textContent = `${questionno + 1})${questions[questionno].question}`;
+            txtA.textContent = questions[questionno].a;
+            txtB.textContent = questions[questionno].b;
+            txtC.textContent = questions[questionno].c;
+            txtD.textContent = questions[questionno].d;
 
             questionno++;
-
-            nextQuestion();
-
+            setTimeout(nextQuestion, 5000);
         }
     </script>
 

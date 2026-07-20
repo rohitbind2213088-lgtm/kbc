@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBC</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hide {
+            display: none;
+        }
+
+          button{
+                    width: 200px;
+                    height: 100px;
+          }
+
+          option{
+                display: grid;
+          }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="divStart">
+            <button onclick="doHide(divstart);doShow(divgame)">Start</button>
+
+        </div>
+        <div id="divGame" class="hide">
+            <h1>What is html</h1>
+             <div class="options">
+ 
+            <div class="option">
+                <input type="radio" id="rdA" name="q">
+                <label id="txtA" for="rdA"></label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="rdB" name="q">
+                <label id="txtB" for="rdB"></label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="rdC" name="q">
+                <label id="txtC" for="rdC"></label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="rdD" name="q">
+                <label id="txtD" for="rdD"></label>
+            </div>
+
+              <br>
+
+        <div style="text-align:center;">
+            <button onclick="submitAnswer()">Submit</button>
+            
+        </div>
+
+        </div>
+    </div>
+    <script>
+
+        
+
+        
+        
+        const divstart = document.querySelector("#divStart");
+        const divgame = document.querySelector("#divGame");
+        function doHide(element) {
+            element.classList.add("hide");
+
+        }
+        function doShow(element) {
+            element.classList.remove("hide");
+
+        }
+
+        
+    </script>
+</body>
+
+</html>

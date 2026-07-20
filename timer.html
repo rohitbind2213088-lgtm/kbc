@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBC</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top, #1e3a8a, #020617 65%),
+                linear-gradient(135deg, #020617, #111827);
+            color: white;
+        }
+
+        .container {
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .hiddenRadio {
+            visibility: hidden;
+            position: absolute;
+        }
+
+        #divStart,
+        #divGame {
+            width: 95%;
+            max-width: 760px;
+            background: linear-gradient(180deg, #0f172a, #020617);
+            border: 3px solid #facc15;
+            border-radius: 28px;
+            padding: 28px;
+            text-align: center;
+            box-shadow:
+                0 0 25px rgba(250, 204, 21, 0.45),
+                inset 0 0 18px rgba(59, 130, 246, 0.25);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #facc15;
+            font-size: 42px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 14px rgba(250, 204, 21, 0.8);
+        }
+
+        #lblTimer {
+            display: inline-block;
+            min-width: 58px;
+            margin-left: 10px;
+            padding: 8px 14px;
+            border-radius: 14px;
+            background: #7f1d1d;
+            color: #fecaca;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        #lblReward {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #facc15, #f97316);
+            color: #111827;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #lblQuestion {
+            margin: 28px auto;
+            padding: 22px;
+            max-width: 680px;
+            min-height: 90px;
+            background: linear-gradient(180deg, #1e3a8a, #172554);
+            border: 2px solid #93c5fd;
+            border-radius: 22px;
+            color: #ffffff;
+            font-size: 25px;
+            font-weight: bold;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        #divGame > div:not(#lblQuestion) {
+            width: 100%;
+            max-width: 620px;
+            margin: 12px auto;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(90deg, #1e40af, #1e3a8a);
+            border: 2px solid #60a5fa;
+            border-radius: 999px;
+            color: white;
+            text-align: left;
+        }
+
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #facc15;
+            cursor: pointer;
+        }
+
+        #lbla,
+        #lblb,
+        #lblc,
+        #lbld {
+            flex: 1;
+            font-size: 19px;
+            cursor: pointer;
+        }
+
+        button {
+            margin: 8px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #facc15, #f97316);
+            color: #111827;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="divStart">
+            <h1>KBC</h1>
+            <button onclick="doHide(divstart);doShow(divgame);loadNextQuestion()">Start</button>
+        </div>
+
+        <div id="divGame" class="hide">
+            <h1>Game</h1>
+
+            <label>Time Left</label>
+            <label id="lblTimer">30</label>
+
+            <br><br>
+
+            <label>Current Reward</label>
+            <label id="lblReward">₹0</label>
+
+            <div id="lblQuestion"></div>
+
+            <div>
+                <input type="radio" name="option" id="rda">
+                <label id="lbla" for="rda">Option A</label>
+            </div>
+
+            <div>
+                <input type="radio" name="option" id="rdb">
+                <label id="lblb" for="rdb">Option B</label>
+            </div>
+
+            <div>
+                <input type="radio" name="option" id="rdc">
+                <label id="lblc" for="rdc">Option C</label>
+            </div>
+
+            <div>
+                <input type="radio" name="option" id="rdd">
+                <label id="lbld" for="rdd">Option D</label>
+            </div>
+
+            <input type="radio" name="option" id="rde" class="hiddenRadio" checked>
+
+            <br><br>
+
+            <button onclick="speakQuestion()">Speak Again</button>
+            <button onclick="checkAnswer()">Check Answer</button>
+        </div>
+
+    </div>
+
+    <script>
+        const questions = [
+            {
+                "question": "What is the capital of Uttar Pradesh?",
+                "a": "Lucknow",
+                "b": "Kanpur",
+                "c": "Varanasi",
+                "d": "Agra",
+                "answer": "a"
+            },
+            {
+                "question": "What is the capital of Bihar?",
+                "a": "Gaya",
+                "b": "Patna",
+                "c": "Bhagalpur",
+                "d": "Muzaffarpur",
+                "answer": "b"
+            },
+            {
+                "question": "What is the capital of Rajasthan?",
+                "a": "Jodhpur",
+                "b": "Udaipur",
+                "c": "Jaipur",
+                "d": "Ajmer",
+                "answer": "c"
+            },
+            {
+                "question": "What is the capital of Madhya Pradesh?",
+                "a": "Indore",
+                "b": "Gwalior",
+                "c": "Jabalpur",
+                "d": "Bhopal",
+                "answer": "d"
+            },
+            {
+                "question": "What is the capital of Maharashtra?",
+                "a": "Mumbai",
+                "b": "Pune",
+                "c": "Nagpur",
+                "d": "Nashik",
+                "answer": "a"
+            },
+            {
+                "question": "What is the capital of Gujarat?",
+                "a": "Ahmedabad",
+                "b": "Gandhinagar",
+                "c": "Surat",
+                "d": "Vadodara",
+                "answer": "b"
+            },
+            {
+                "question": "What is the capital of West Bengal?",
+                "a": "Siliguri",
+                "b": "Howrah",
+                "c": "Kolkata",
+                "d": "Durgapur",
+                "answer": "c"
+            },
+            {
+                "question": "What is the capital of Tamil Nadu?",
+                "a": "Madurai",
+                "b": "Coimbatore",
+                "c": "Tiruchirappalli",
+                "d": "Chennai",
+                "answer": "d"
+            },
+            {
+                "question": "What is the capital of Karnataka?",
+                "a": "Bengaluru",
+                "b": "Mysuru",
+                "c": "Mangaluru",
+                "d": "Hubballi",
+                "answer": "a"
+            },
+            {
+                "question": "What is the capital of Kerala?",
+                "a": "Kochi",
+                "b": "Thiruvananthapuram",
+                "c": "Kozhikode",
+                "d": "Thrissur",
+                "answer": "b"
+            },
+            {
+                "question": "What is the capital of Punjab?",
+                "a": "Ludhiana",
+                "b": "Amritsar",
+                "c": "Chandigarh",
+                "d": "Jalandhar",
+                "answer": "c"
+            },
+            {
+                "question": "What is the capital of Haryana?",
+                "a": "Gurugram",
+                "b": "Faridabad",
+                "c": "Panipat",
+                "d": "Chandigarh",
+                "answer": "d"
+            },
+            {
+                "question": "What is the capital of Assam?",
+                "a": "Dispur",
+                "b": "Guwahati",
+                "c": "Silchar",
+                "d": "Dibrugarh",
+                "answer": "a"
+            },
+            {
+                "question": "What is the capital of Odisha?",
+                "a": "Cuttack",
+                "b": "Bhubaneswar",
+                "c": "Puri",
+                "d": "Rourkela",
+                "answer": "b"
+            },
+            {
+                "question": "What is the capital of Jharkhand?",
+                "a": "Jamshedpur",
+                "b": "Dhanbad",
+                "c": "Ranchi",
+                "d": "Bokaro",
+                "answer": "c"
+            }
+        ];
+
+        const rewards = [
+            "₹1,000",
+            "₹2,000",
+            "₹3,000",
+            "₹5,000",
+            "₹10,000",
+            "₹20,000",
+            "₹40,000",
+            "₹80,000",
+            "₹1,60,000",
+            "₹3,20,000",
+            "₹6,40,000",
+            "₹12,50,000",
+            "₹25,00,000",
+            "₹50,00,000",
+            "₹1 Crore"
+        ];
+
+        const divstart = document.querySelector("#divStart");
+        const divgame = document.querySelector("#divGame");
+
+        const lbltimer = document.querySelector("#lblTimer");
+        const lblreward = document.querySelector("#lblReward");
+        const lblquestion = document.querySelector("#lblQuestion");
+
+        const rda = document.querySelector("#rda");
+        const rdb = document.querySelector("#rdb");
+        const rdc = document.querySelector("#rdc");
+        const rdd = document.querySelector("#rdd");
+        const rde = document.querySelector("#rde");
+
+        const lbla = document.querySelector("#lbla");
+        const lblb = document.querySelector("#lblb");
+        const lblc = document.querySelector("#lblc");
+        const lbld = document.querySelector("#lbld");
+
+        let counter = 30;
+        let timerId = null;
+        let questionIndex = -1;
+
+        function getSelectedAnswer() {
+            if (rde.checked) {
+                return "";
+            }
+
+            if (rda.checked) {
+                return "a";
+            }
+
+            if (rdb.checked) {
+                return "b";
+            }
+
+            if (rdc.checked) {
+                return "c";
+            }
+
+            if (rdd.checked) {
+                return "d";
+            }
+
+            return "";
+        }
+
+        function loadNextQuestion() {
+            questionIndex++;
+
+            if (questionIndex >= questions.length) {
+                endKbc("Congratulations! You completed KBC.");
+                return;
+            }
+
+            const currentQuestion = questions[questionIndex];
+
+            lblquestion.textContent = currentQuestion.question;
+
+            lbla.textContent = currentQuestion.a;
+            lblb.textContent = currentQuestion.b;
+            lblc.textContent = currentQuestion.c;
+            lbld.textContent = currentQuestion.d;
+
+            lblreward.textContent = rewards[questionIndex];
+
+            rda.style.display = "inline";
+            rdb.style.display = "inline";
+            rdc.style.display = "inline";
+            rdd.style.display = "inline";
+
+            rde.checked = true;
+
+            startTimer();
+            speakQuestion();
+        }
+
+        function checkAnswer() {
+            const selectedAnswer = getSelectedAnswer();
+
+            if (selectedAnswer === "") {
+                alert("Please select an answer.");
+                return;
+            }
+
+            const correctAnswer = questions[questionIndex].answer;
+
+            if (selectedAnswer === correctAnswer) {
+                alert("Correct answer!");
+                loadNextQuestion();
+            } else {
+                endKbc("Wrong answer. KBC ended.");
+            }
+        }
+
+        function endKbc(message) {
+            clearInterval(timerId);
+            window.speechSynthesis.cancel();
+
+            let wonIndex = questionIndex - 1;
+
+            if (wonIndex >= 0) {
+                lblreward.textContent = "You won " + rewards[wonIndex];
+            } else {
+                lblreward.textContent = "You won ₹0";
+            }
+
+            lblquestion.textContent = message;
+
+            lbla.textContent = "";
+            lblb.textContent = "";
+            lblc.textContent = "";
+            lbld.textContent = "";
+
+            rda.style.display = "none";
+            rdb.style.display = "none";
+            rdc.style.display = "none";
+            rdd.style.display = "none";
+
+            lbltimer.textContent = "0";
+        }
+
+        function startTimer() {
+            clearInterval(timerId);
+
+            counter = 30;
+            lbltimer.textContent = counter;
+
+            timerId = setInterval(function () {
+                counter--;
+                lbltimer.textContent = counter;
+
+                if (counter === 0) {
+                    endKbc("Time up! KBC ended.");
+                }
+            }, 1000);
+        }
+
+        function speakQuestion() {
+            if (questionIndex < 0 || questionIndex >= questions.length) {
+                return;
+            }
+
+            const currentQuestion = questions[questionIndex];
+
+            const text =
+                "Question for " + rewards[questionIndex] + ". " +
+                currentQuestion.question +
+                ". Option A. " + currentQuestion.a +
+                ". Option B. " + currentQuestion.b +
+                ". Option C. " + currentQuestion.c +
+                ". Option D. " + currentQuestion.d + ".";
+
+            window.speechSynthesis.cancel();
+
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = "en-IN";
+            speech.rate = 0.85;
+            speech.pitch = 1;
+
+            window.speechSynthesis.speak(speech);
+        }
+
+        function doHide(element) {
+            element.classList.add("hide");
+        }
+
+        function doShow(element) {
+            element.classList.remove("hide");
+        }
+    </script>
+
+</body>
+
+</html>

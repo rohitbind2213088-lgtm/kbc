@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBC Quiz</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #0b1b4d;
+            color: white;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #quiz {
+            width: 600px;
+            margin: 30px auto;
+            background: #1f3b8a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option {
+            background: #2d3ab3;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .option:hover {
+            background: #3f63d6;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 25px;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="start">Start</button>
+
+    <div id="quiz" class="hide">
+
+        <h2 id="question"></h2>
+
+        <div id="options"></div>
+
+        <button onclick="checkAnswer()">Submit</button>
+        <button id="next" class="hide" onclick="nextQuestion()">Next</button>
+
+        <h3 id="result"></h3>
+
+    </div>
+
+    <script>
+
+        let questions = [
+            {
+                question: "1. India ki Rajdhani?",
+                options: ["Lucknow", "New Delhi", "Mumbai", "Agra"],
+                answer: "New Delhi"
+            },
+            {
+                question: " 5 + 5 = ?",
+                options: ["8", "9", "10", "11"],
+                answer: "10"
+            },
+            {
+                question: "3. HTML ka Full Form?",
+                options: [
+                    "Hyper Text Markup Language",
+                    "Home Tool Markup Language",
+                    "Hyper Tool Language",
+                    "High Text Language"
+                ],
+                answer: "Hyper Text Markup Language"
+            },
+            {
+                question: "4. What is CSS?",
+                options: ["Database", "Styling", "Game", "Network"],
+                answer: "Styling"
+            },
+            {
+                question: "5. Taj Mahal kahan hai?",
+                options: ["Delhi", "Kanpur", "Agra", "Lucknow"],
+                answer: "Agra"
+            }
+        ];
+
+        let index = 0;
+        let score = 0;
+
+        document.getElementById("start").onclick = function () {
+            this.classList.add("hide");
+            document.getElementById("quiz").classList.remove("hide");
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("next").classList.add("hide");
+
+            document.getElementById("question").innerHTML = questions[index].question;
+
+            let html = "";
+            let letters = ["A", "B", "C", "D"];
+
+            for (let i = 0; i < 4; i++) {
+                html += `
+                <label class="option">
+                    <input type="radio" name="ans" value="${questions[index].options[i]}">
+                    <b>${letters[i]}.</b> ${questions[index].options[i]}
+                </label>`;
+            }
+
+            document.getElementById("options").innerHTML = html;
+        }
+
+        function checkAnswer() {
+
+            let ans = document.querySelector('input[name="ans"]:checked');
+
+            if (!ans) {
+                alert("Option Select Karo");
+                return;
+            }
+
+            if (ans.value == questions[index].answer) {
+                score++;
+                document.getElementById("result").innerHTML = "✅ Correct";
+            } else {
+                document.getElementById("result").innerHTML =
+                    "❌ Wrong <br>Correct Answer: " + questions[index].answer;
+            }
+
+            document.getElementById("next").classList.remove("hide");
+        }
+
+        function nextQuestion() {
+
+            index++;
+
+            if (index < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quiz").innerHTML =
+                    "<h2>🎉 Quiz Finished</h2><h3>Your Score : " + score + " / " + questions.length + "</h3>";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

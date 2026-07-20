@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kon banega corodpati</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#000;
+    color:white;
+}
+
+.container{
+    width:700px;
+    margin:60px auto;
+    text-align:center;
+}
+
+#question{
+    background:red;
+    padding:20px;
+    border-radius:15px;
+}
+
+.options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:30px;
+}
+
+.option{
+    padding:15px;
+    font-size:18px;
+    background:#0047ab;
+    color:white;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+
+.option:hover{
+    background:#0066ff;
+}
+
+.correct{
+    background:green !important;
+}
+
+.wrong{
+    background:red !important;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2 id="number"></h2>
+
+<h2 id="question"></h2>
+
+<div class="options">
+
+<button class="option" id="op0" onclick="check(0)"></button>
+<button class="option" id="op1" onclick="check(1)"></button>
+<button class="option" id="op2" onclick="check(2)"></button>
+<button class="option" id="op3" onclick="check(3)"></button>
+
+</div>
+
+</div>
+
+<script>
+
+let quiz=[
+
+{
+question:"What is JavaScript?",
+options:["Java","Python","C++","JavaScript"],
+answer:3
+},
+
+{
+question:"HTML stands for?",
+options:[
+"Hyper Text Markup Language",
+"High Text Machine Language",
+"Home Tool Markup Language",
+"Hyper Tool Machine Language"],
+answer:0
+},
+
+{
+question:"CSS is used for?",
+options:[
+"Programming",
+"Styling",
+"Database",
+"Networking"],
+answer:1
+},
+
+{
+question:"Which tag is used for Image?",
+options:[
+"<img>",
+"<div>",
+"<body>",
+"<table>"],
+answer:0
+},
+
+{
+question:"Which tag creates Hyperlink?",
+options:[
+"<img>",
+"<body>",
+"<a>",
+"<head>"],
+answer:2
+}
+
+];
+
+let current=0;
+let score=0;
+
+showQuestion();
+
+function showQuestion(){
+
+document.getElementById("number").innerHTML="Question "+(current+1)+" / "+quiz.length;
+
+document.getElementById("question").innerHTML=quiz[current].question;
+
+document.getElementById("op0").innerHTML="A. "+quiz[current].options[0];
+document.getElementById("op1").innerHTML="B. "+quiz[current].options[1];
+document.getElementById("op2").innerHTML="C. "+quiz[current].options[2];
+document.getElementById("op3").innerHTML="D. "+quiz[current].options[3];
+
+}
+
+function check(ans){
+
+let btn=document.getElementsByClassName("option");
+
+// disable buttons
+for(let i=0;i<4;i++){
+btn[i].disabled=true;
+}
+
+// correct answer green
+btn[quiz[current].answer].classList.add("correct");
+
+// wrong answer red
+if(ans!=quiz[current].answer){
+btn[ans].classList.add("wrong");
+}
+else{
+score++;
+}
+
+// next question after 1 second
+setTimeout(function(){
+
+for(let i=0;i<4;i++){
+btn[i].classList.remove("correct");
+btn[i].classList.remove("wrong");
+btn[i].disabled=false;
+}
+
+current++;
+
+if(current<quiz.length){
+showQuestion();
+}
+else{
+
+document.querySelector(".container").innerHTML=
+"<h1>Quiz Completed</h1>"+
+"<h2>Your Score : "+score+" / "+quiz.length+"</h2>";
+
+}
+
+},1000);
+
+}
+
+</script>
+
+</body>
+</html>
