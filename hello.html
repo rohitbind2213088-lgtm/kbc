@@ -598,20 +598,20 @@
 
                 document.getElementById("question").innerHTML =
                     questions[currentQuestion].question;
-const speech=`Question number   ${questions[currentQuestion].question},${questions[currentQuestion].options[0]},${questions[currentQuestion].options[1]},${questions[currentQuestion].options[2]},${questions[currentQuestion].options[3]}`;
-                   const message = new SpeechSynthesisUtterance(speech);
+                const speech = `Question number   ${questions[currentQuestion].question},${questions[currentQuestion].options[0]},${questions[currentQuestion].options[1]},${questions[currentQuestion].options[2]},${questions[currentQuestion].options[3]}`;
+                const message = new SpeechSynthesisUtterance(speech);
                 window.speechSynthesis.speak(message);
 
 
 
-            // message.lang = "hi-us";  // Indian English
-            // message.rate = 1;         // Speaking speed
-            // message.pitch = .1;        // How high or low the voice sounds
-            // message.volume = 1;       // 0 is silent; 1 is full volume
+                // message.lang = "hi-us";  // Indian English
+                // message.rate = 1;         // Speaking speed
+                // message.pitch = .1;        // How high or low the voice sounds
+                // message.volume = 1;       // 0 is silent; 1 is full volume
 
-            // window.speechSynthesis.speak(message);
+                // window.speechSynthesis.speak(message);
 
-              
+
                 // const optionMessages = questions[currentQuestion].options.map(option => new SpeechSynthesisUtterance(option));
                 // optionMessages.forEach(msg => window.speechSynthesis.speak(msg));
 
@@ -638,11 +638,13 @@ const speech=`Question number   ${questions[currentQuestion].question},${questio
             function checkAnswer() {
 
                 let selected = document.querySelector("input[name='option']:checked");
-                if (!selected) { alert("Please select an answer.");
-                const message = new SpeechSynthesisUtterance("Please select an answer.");
-                window.speechSynthesis.speak(message);
-                
-                return; }
+                if (!selected) {
+                    alert("Please select an answer.");
+                    const message = new SpeechSynthesisUtterance("Please select an answer.");
+                    window.speechSynthesis.speak(message);
+
+                    return;
+                }
                 document.querySelector(".submit-btn").disabled = true;
 
 
@@ -652,14 +654,16 @@ const speech=`Question number   ${questions[currentQuestion].question},${questio
 
                 if (answer === questions[currentQuestion].answer) {
                     options[answer].classList.add("correct");
+
+                    
                     const message = new SpeechSynthesisUtterance("YOU ARE RIGHT.");
-                window.speechSynthesis.speak(message);
+                    window.speechSynthesis.speak(message);
                     score++;
                     updatePrizeMoney();
                 } else {
                     options[answer].classList.add("wrong");
                     const message = new SpeechSynthesisUtterance("YOU ARE WRONG.");
-                window.speechSynthesis.speak(message);
+                    window.speechSynthesis.speak(message);
                     options[questions[currentQuestion].answer].classList.add("correct");
                 }
 
