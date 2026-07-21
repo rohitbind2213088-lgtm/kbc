@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <button onclick="f()" id="speakBtn">Speak</button>
+
+    <script>
+
+        function f() {
+            const message = new SpeechSynthesisUtterance("Learning slowly and clearly makes programming easier.Learning slowly and clearly makes programming easier.Learning slowly and clearly makes programming easier.");
+            // window.speechSynthesis.speak(message);
+
+
+
+
+            message.lang = "hi-us";  // Indian English
+            message.rate = 1;         // Speaking speed
+            message.pitch = .1;        // How high or low the voice sounds
+            message.volume = 1;       // 0 is silent; 1 is full volume
+
+            window.speechSynthesis.speak(message);
+        }
+
+    </script>
+
+</body>
+
+</html>
