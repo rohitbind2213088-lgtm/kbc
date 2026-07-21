@@ -654,7 +654,6 @@
 
                 if (answer === questions[currentQuestion].answer) {
                     options[answer].classList.add("correct");
-
                     
                     const message = new SpeechSynthesisUtterance("YOU ARE RIGHT.");
                     window.speechSynthesis.speak(message);
