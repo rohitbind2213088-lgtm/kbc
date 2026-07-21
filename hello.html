@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,7 +59,7 @@
             display: none;
         }
 
-        /* Header */
+
 
         .logo {
             text-align: center;
@@ -221,24 +220,67 @@
             color: black;
             font-weight: bold;
         }
-    
 
-        @media (max-width: 768px){
-            .start-box{width:90%;padding:30px;}
-            .start-box h1{font-size:36px;}
-            .logo img{width:180px;}
-            .header{font-size:22px;}
-            .lifelines{flex-wrap:wrap;gap:10px;}
-            .lifelines button{padding:8px 12px;font-size:14px;}
-            .question-box{width:95%;padding:15px;}
-            .options{grid-template-columns:1fr;}
-            .option{font-size:16px;}
-            .buttons{flex-direction:column;}
-            .submit-btn,.next-btn{width:100%;}
-            .prizes{position:static;width:95%;margin:20px auto;top:auto;right:auto;}
+
+        @media (max-width: 768px) {
+            .start-box {
+                width: 90%;
+                padding: 30px;
+            }
+
+            .start-box h1 {
+                font-size: 36px;
+            }
+
+            .logo img {
+                width: 180px;
+            }
+
+            .header {
+                font-size: 22px;
+            }
+
+            .lifelines {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .lifelines button {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .question-box {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .option {
+                font-size: 16px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .submit-btn,
+            .next-btn {
+                width: 100%;
+            }
+
+            .prizes {
+                position: static;
+                width: 95%;
+                margin: 20px auto;
+                top: auto;
+                right: auto;
+            }
         }
-
-</style>
+    </style>
 
 </head>
 
@@ -581,7 +623,7 @@
 
                 let selected = document.querySelector("input[name='option']:checked");
                 if (!selected) { alert("Please select an answer."); return; }
-
+                document.querySelector(".submit-btn").disabled = true;
                 let answer = Number(selected.value);
                 let options = document.querySelectorAll(".option");
                 options.forEach(o => o.classList.remove("correct", "wrong"));
@@ -606,6 +648,7 @@
                 if (currentQuestion < questions.length) {
 
                     loadQuestion();
+                    document.querySelector(".submit-btn").disabled = false;
 
                 }
                 else {
