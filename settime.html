@@ -198,15 +198,6 @@
 
 
 
-        #timer {
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            color: white;
-            margin: 15px 0;
-            transition: .3s;
-        }
-
         #score {
             text-align: center;
             margin-top: 15px;
@@ -367,8 +358,6 @@
                 </button>
 
             </div>
-
-            <h2 id="timer">Time Left : 30s</h2>
 
             <h2 id="score">
                 Score : 0
@@ -592,20 +581,7 @@
 
             let currentQuestion = 0;
             let score = 0;
-            let timer;
-            let timeLeft = 30;
             const prizeAmount = ["₹1,000", "₹2,000", "₹3,000", "₹5,000", "₹10,000", "₹20,000", "₹40,000", "₹80,000", "₹1,60,000", "₹3,20,000", "₹6,40,000", "₹12,50,000", "₹25,00,000", "₹50,00,000", "₹1 Crore", "₹2 Crore", "₹3 Crore", "₹4 Crore", "₹5 Crore", "₹7 Crore"];
-
-            function startTimer() {
-                clearInterval(timer); timeLeft = 30;
-                const timerBox = document.getElementById("timer");
-                timerBox.innerHTML = "⏰ Time Left : 30s"; timerBox.style.color = "white";
-                timer = setInterval(() => {
-                    timeLeft--; timerBox.innerHTML = "⏰ Time Left : " + timeLeft + "s";
-                    if (timeLeft <= 10) { timerBox.style.color = "red"; timerBox.style.fontWeight = "bold"; timerBox.style.fontSize = "32px"; } else { timerBox.style.color = "white"; timerBox.style.fontSize = "28px"; }
-                    if (timeLeft <= 0) { clearInterval(timer); window.speechSynthesis.cancel(); window.speechSynthesis.speak(new SpeechSynthesisUtterance("Time Over")); currentQuestion = 0; score = 0; document.getElementById("score").innerHTML = "Score : 0"; document.querySelectorAll("#prizeList li").forEach(li => li.classList.remove("active")); document.querySelectorAll("input[name='option']").forEach(r => r.checked = false); setTimeout(() => { document.getElementById("gameScreen").classList.add("hide"); document.getElementById("startScreen").classList.remove("hide"); }, 1500); }
-                }, 1000);
-            }
             function updatePrizeMoney() {
                 let prizes = document.querySelectorAll("#prizeList li");
                 prizes.forEach(li => li.classList.remove("active"));
@@ -657,11 +633,9 @@
 
                 document.querySelectorAll(".option").forEach(o => o.classList.remove("correct", "wrong"));
                 document.getElementById("nextBtn").style.display = "none";
-                startTimer();
             }
 
             function checkAnswer() {
-                clearInterval(timer);
 
                 let selected = document.querySelector("input[name='option']:checked");
                 if (!selected) {
@@ -685,7 +659,7 @@
                     window.speechSynthesis.speak(message);
                     score++;
                     updatePrizeMoney();
-
+                    
                 } else {
                     options[answer].classList.add("wrong");
                     const message = new SpeechSynthesisUtterance("YOU ARE WRONG.");
